@@ -159,7 +159,8 @@ TfLiteStatus AddEval(TfLiteContext* context, TfLiteNode* node) {
 
   return kTfLiteOk;
 }
- } // namespace
+
+} // namespace
 
 namespace tflite {
 
