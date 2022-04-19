@@ -28,7 +28,9 @@ limitations under the License.
 #include "tensorflow/lite/micro/memory_helpers.h"
 #include "tensorflow/lite/micro/micro_error_reporter.h"
 
-namespace tflite {
+namespace {
+
+using namespace tflite;
 
 void EvalAdd(TfLiteContext* context, TfLiteNode* node, TfLiteAddParams* params,
              const OpDataAdd* data, const TfLiteEvalTensor* input1,
@@ -157,6 +159,9 @@ TfLiteStatus AddEval(TfLiteContext* context, TfLiteNode* node) {
 
   return kTfLiteOk;
 }
+ } // namespace
+
+namespace tflite {
 
 TfLiteRegistration* Register_FLEX_ADD_V2() {
   static TfLiteRegistration r = {/*init=*/AddInit,
