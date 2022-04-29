@@ -341,6 +341,11 @@ TfLiteStatus ParseSpaceToDepth(const Operator* op,
                                BuiltinDataAllocator* allocator,
                                void** builtin_data);
 
+TfLiteStatus ParseSparseToDense(const Operator* op,
+                                ErrorReporter* error_reporter,
+                                BuiltinDataAllocator* allocator,
+                                void** builtin_data);
+
 TfLiteStatus ParseSplit(const Operator* op, ErrorReporter* error_reporter,
                         BuiltinDataAllocator* allocator, void** builtin_data);
 

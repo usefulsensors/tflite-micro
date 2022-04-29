@@ -212,6 +212,7 @@ tflm_kernel_cc_library(
         "slice.cc",
         "softmax.cc",
         "softmax_common.cc",
+        "sparse_to_dense.cc",
         "space_to_batch_nd.cc",
         "space_to_depth.cc",
         "split.cc",

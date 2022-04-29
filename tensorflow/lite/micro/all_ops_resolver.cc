@@ -98,6 +98,7 @@ AllOpsResolver::AllOpsResolver() {
   AddSoftmax();
   AddSpaceToBatchNd();
   AddSpaceToDepth();
+  AddSparseToDense();
   AddSplit();
   AddSplitV();
   AddSqrt();

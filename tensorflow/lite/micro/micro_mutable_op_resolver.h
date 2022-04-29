@@ -497,6 +497,12 @@ class MicroMutableOpResolver : public MicroOpResolver {
                       ParseSpaceToDepth);
   }
 
+  TfLiteStatus AddSparseToDense() {
+    return AddBuiltin(BuiltinOperator_SPARSE_TO_DENSE,
+                      Register_SPARSE_TO_DENSE(),
+                      ParseSparseToDense);
+  }
+
   TfLiteStatus AddSplit() {
     return AddBuiltin(BuiltinOperator_SPLIT,
                       tflite::ops::micro::Register_SPLIT(), ParseSplit);

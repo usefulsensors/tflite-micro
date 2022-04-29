@@ -656,14 +656,7 @@ TfLiteStatus ParseOpDataTfLite(const Operator* op, BuiltinOperator op_type,
       return ParseGather(op, error_reporter, allocator, builtin_data);
     }
     case BuiltinOperator_SPARSE_TO_DENSE: {
-      auto params = safe_allocator.Allocate<TfLiteSparseToDenseParams>();
-      TF_LITE_ENSURE(error_reporter, params != nullptr);
-      if (const auto* sparse_to_dense_params =
-              op->builtin_options_as_SparseToDenseOptions()) {
-        params->validate_indices = sparse_to_dense_params->validate_indices();
-      }
-      *builtin_data = params.release();
-      return kTfLiteOk;
+      return ParseSparseToDense(op, error_reporter, allocator, builtin_data);
     }
     case BuiltinOperator_DELEGATE: {
       TF_LITE_REPORT_ERROR(error_reporter,
@@ -2065,6 +2058,24 @@ TfLiteStatus ParseSpaceToDepth(const Operator* op,
     // better undertand the ramifications of changing the legacy behavior.
   }
 
+  *builtin_data = params.release();
+  return kTfLiteOk;
+}
+
+// We have this parse function instead of directly returning kTfLiteOk from the
+// switch-case in ParseOpData because this function is used as part of the
+// selective registration for the OpResolver implementation in micro.
+TfLiteStatus ParseSparseToDense(const Operator* op,
+                                ErrorReporter* error_reporter,
+                                BuiltinDataAllocator* allocator,
+                                void** builtin_data) {
+  SafeBuiltinDataAllocator safe_allocator(allocator);
+  auto params = safe_allocator.Allocate<TfLiteSparseToDenseParams>();
+  TF_LITE_ENSURE(error_reporter, params != nullptr);
+  if (const auto* sparse_to_dense_params =
+          op->builtin_options_as_SparseToDenseOptions()) {
+    params->validate_indices = sparse_to_dense_params->validate_indices();
+  }
   *builtin_data = params.release();
   return kTfLiteOk;
 }
