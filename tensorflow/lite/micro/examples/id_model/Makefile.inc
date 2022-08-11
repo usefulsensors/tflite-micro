@@ -24,10 +24,6 @@ $(ID_MODEL_TEST_SRCS),,$(ID_MODEL_GENERATOR_INPUTS)))
 _SRCS += $(ID_MODEL_GENERATED_SRCS)
 _HDRS += $(ID_MODEL_GENERATED_HDRS)
 
-# Compier flags for OpenCV libraries and header files.
-INCLUDES += $(shell pkg-config --cflags opencv4)
-LDFLAGS += $(shell pkg-config --libs opencv4)
-
 list_$(EXAMPLE_NAME)_example_sources:
 	@echo $(ID_MODEL_SRCS)
 
