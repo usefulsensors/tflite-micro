@@ -40,21 +40,24 @@ TF_LITE_MICRO_TEST(LoadModelAndPerformInference) {
                          model->version(), TFLITE_SCHEMA_VERSION);
   }
 
-  tflite::MicroMutableOpResolver<12> resolver;
+  tflite::MicroMutableOpResolver<15> resolver;
   resolver.AddPad();
   resolver.AddConv2D();
   resolver.AddDepthwiseConv2D();
-  resolver.AddRelu();
-  resolver.AddLeakyRelu();
-  resolver.AddResizeNearestNeighbor();
-  resolver.AddAdd();
-  resolver.AddAveragePool2D();
-  resolver.AddReshape();
+  resolver.AddPrelu();
   resolver.AddConcatenation();
-  resolver.AddFullyConnected();
+  resolver.AddShape();
+  resolver.AddStridedSlice();
+  resolver.AddPack();
+  resolver.AddReshape();
+  resolver.AddTranspose();
+  resolver.AddSplit();
   resolver.AddExpandDims();
+  resolver.AddAdd();
+  resolver.AddMul();
+  resolver.AddDequantize();
 
-  constexpr int kTensorArenaSize = 0.3 * 1024.0 * 1024.0; // MB
+  constexpr int kTensorArenaSize = 0.5 * 1024.0 * 1024.0; // MB
   uint8_t tensor_arena[kTensorArenaSize];
 
   tflite::MicroInterpreter interpreter(model, resolver, tensor_arena,
@@ -85,7 +88,8 @@ TF_LITE_MICRO_TEST(LoadModelAndPerformInference) {
 
   TfLiteTensor* output0 = interpreter.output(0);
 
-  TF_LITE_MICRO_EXPECT_EQ(kTfLiteInt8, output0->type);
+  //TF_LITE_MICRO_EXPECT_EQ(kTfLiteInt8, output0->type);
+  TF_LITE_MICRO_EXPECT_EQ(kTfLiteFloat32, output0->type);
   TF_LITE_MICRO_EXPECT_EQ(3, output0->dims->size);
   TF_LITE_MICRO_EXPECT_EQ(1, output0->dims->data[0]);
   TF_LITE_MICRO_EXPECT_EQ(1, output0->dims->data[1]);
